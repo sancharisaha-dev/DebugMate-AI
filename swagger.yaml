@@ -1,0 +1,52 @@
+openapi: 3.0.0
+
+info:
+  title: DebugMate AI API
+  version: 1.0.0
+  description: AI-powered backend for debugging software errors.
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+
+  /api/auth/register:
+    post:
+      summary: Register user
+
+  /api/auth/login:
+    post:
+      summary: Login user
+
+  /api/auth/me:
+    get:
+      summary: Current user
+
+  /api/errors:
+    get:
+      summary: List reports
+
+    post:
+      summary: Create report
+
+  /api/errors/{id}:
+    get:
+      summary: Get report
+
+    put:
+      summary: Update report
+
+    delete:
+      summary: Delete report
+
+  /api/errors/{id}/analyze:
+    post:
+      summary: Analyze report
+
+  /api/search:
+    get:
+      summary: Search reports
+
+  /api/analytics:
+    get:
+      summary: Dashboard analytics
