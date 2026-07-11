@@ -1,14 +1,26 @@
 # 🚀 DebugMate AI
 
-An AI-powered backend API for analyzing software errors, managing error reports, detecting duplicates, and providing intelligent debugging assistance.
+An AI-powered backend service for analyzing software errors, managing debugging history, detecting duplicate issues, and providing intelligent insights using Google Gemini AI.
 
-Built with **Node.js**, **Express**, **TypeScript**, **Prisma**, **PostgreSQL**, and **Google Gemini AI**.
+Built with **Node.js**, **Express.js**, **TypeScript**, **Prisma ORM**, **PostgreSQL**, and **Google Gemini AI**.
 
 ---
 
-## 📌 Features
+# 🌐 Live Demo
 
-### 🔐 Authentication
+**API Base URL**
+
+https://debugmate-ai-zvlz.onrender.com
+
+**Swagger Documentation**
+
+https://debugmate-ai-zvlz.onrender.com/docs
+
+---
+
+# 📌 Features
+
+## 🔐 Authentication
 
 - JWT Authentication
 - User Registration
@@ -18,22 +30,22 @@ Built with **Node.js**, **Express**, **TypeScript**, **Prisma**, **PostgreSQL**,
 
 ---
 
-### 🐞 Error Report Management
+## 🐞 Error Report Management
 
 - Create Error Reports
-- View All Reports
-- View Single Report
+- Retrieve All Reports
+- Retrieve Single Report
 - Update Reports
 - Delete Reports
-- Status Management
-- Severity Levels
+- Report Status Management
+- Severity Classification
 - HTTP Method Tracking
 
 ---
 
-### 🤖 AI Error Analysis
+## 🤖 AI Error Analysis
 
-Powered by **Google Gemini**
+Powered by **Google Gemini AI**
 
 Automatically generates:
 
@@ -43,6 +55,290 @@ Automatically generates:
 - Severity Prediction
 - Confidence Score
 - Suggested Fixes
+- Prevention Recommendations
+
+---
+
+## 🔍 Smart Search
+
+Search reports by:
+
+- Title
+- Description
+- Raw Error
+- Programming Language
+- Framework
+
+Additional features:
+
+- Stores user search history
+- Fast keyword-based search
+
+---
+
+## 📊 Analytics Dashboard
+
+Provides insights including:
+
+- Total Error Reports
+- Open Reports
+- Resolved Reports
+- Ignored Reports
+- Total AI Analyses
+- Search Count
+- AI Token Usage
+- AI Processing Time
+
+---
+
+## 🧠 Duplicate Detection
+
+Each error report generates a unique fingerprint to help identify duplicate issues.
+
+---
+
+## 📖 Interactive API Documentation
+
+Comprehensive Swagger UI documentation with support for:
+
+- Request bodies
+- Authentication
+- Endpoint testing
+- Response examples
+
+Available at:
+
+https://debugmate-ai-zvlz.onrender.com/docs
+
+---
+
+# 🛠 Tech Stack
+
+## Backend
+
+- Node.js
+- Express.js
+- TypeScript
+
+## Database
+
+- PostgreSQL
+- Prisma ORM
+- Neon Database
+
+## AI
+
+- Google Gemini AI
+
+## Authentication
+
+- JWT
+- bcrypt
+
+## Validation
+
+- Zod
+
+## Documentation
+
+- Swagger UI
+
+---
+
+# 📂 Project Structure
+
+```text
+prisma/
+
+src/
+├── ai/
+├── config/
+├── controllers/
+├── errors/
+├── middleware/
+├── prompts/
+├── routes/
+├── services/
+├── utils/
+├── validators/
+└── server.ts
+```
+
+---
+
+# ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/sancharisaha-dev/DebugMate-AI.git
+```
+
+Move into the project
+
+```bash
+cd DebugMate-AI
+```
+
+Install dependencies
+
+```bash
+pnpm install
+```
+
+Generate Prisma Client
+
+```bash
+pnpm prisma generate
+```
+
+Run database migrations
+
+```bash
+pnpm prisma migrate dev
+```
+
+Start the development server
+
+```bash
+pnpm dev
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create a `.env` file in the project root.
+
+Example:
+
+```env
+DATABASE_URL=
+
+JWT_ACCESS_SECRET=
+
+JWT_ACCESS_EXPIRES_IN=7d
+
+GEMINI_API_KEY=
+
+PORT=5000
+
+NODE_ENV=development
+```
+
+---
+
+# 📚 API Endpoints
+
+## Authentication
+
+| Method | Endpoint |
+|---------|----------|
+| POST | `/api/auth/register` |
+| POST | `/api/auth/login` |
+| GET | `/api/auth/me` |
+
+---
+
+## Error Reports
+
+| Method | Endpoint |
+|---------|----------|
+| POST | `/api/errors` |
+| GET | `/api/errors` |
+| GET | `/api/errors/:id` |
+| PUT | `/api/errors/:id` |
+| DELETE | `/api/errors/:id` |
+
+---
+
+## AI Analysis
+
+| Method | Endpoint |
+|---------|----------|
+| POST | `/api/errors/:id/analyze` |
+
+---
+
+## Search
+
+| Method | Endpoint |
+|---------|----------|
+| GET | `/api/search?query=TypeError` |
+
+---
+
+## Analytics
+
+| Method | Endpoint |
+|---------|----------|
+| GET | `/api/analytics` |
+
+---
+
+# 🗄 Database Models
+
+- User
+- ErrorReport
+- AIAnalysis
+- Tag
+- SearchHistory
+- ApiUsage
+
+---
+
+# 🚀 Deployment
+
+## Backend
+
+- Render
+
+## Database
+
+- Neon PostgreSQL
+
+---
+
+# Built With
+
+- Express.js
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- Google Gemini AI
+- JWT Authentication
+- Swagger UI
+
+---
+
+# 📈 Future Improvements
+
+- Team Workspaces
+- API Key Authentication
+- User-based Rate Limiting
+- Email Notifications
+- Error Log File Uploads
+- OpenAI Support
+- Docker Support
+- CI/CD Pipeline
+- Redis Caching
+- Background Job Queue
+- Semantic Vector Search
+- Real-time Collaboration
+
+---
+
+# Author
+
+**Sanchari Saha**
+
+GitHub: https://github.com/sancharisaha-dev
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.- Suggested Fixes
 - Prevention Tips
 
 ---
