@@ -1,9 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Severity } from "@prisma/client";
 import { prisma } from "../config/prisma";
 import { AppError } from "../errors/AppError";
-import { generateAI } from "../ai/gemini.provider";
-import { buildErrorAnalysisPrompt } from "../prompts/errorAnalysis.prompt";
-import { aiResponseSchema } from "../validators/ai.schema";
 
 export async function analyzeErrorReport(
   reportId: string,
@@ -12,8 +9,8 @@ export async function analyzeErrorReport(
   const report = await prisma.errorReport.findFirst({
     where: {
       id: reportId,
-      userId
-    }
+      userId,
+    },
   });
 
   if (!report) {
@@ -22,8 +19,8 @@ export async function analyzeErrorReport(
 
   const existingAnalysis = await prisma.aIAnalysis.findUnique({
     where: {
-      errorReportId: reportId
-    }
+      errorReportId: reportId,
+    },
   });
 
   if (existingAnalysis) {
@@ -31,31 +28,31 @@ export async function analyzeErrorReport(
   }
 
   const validated = {
-  summary:
-    "A runtime exception occurred while processing the request.",
+    summary:
+      "A runtime exception occurred while processing the request.",
 
-  rootCause:
-    "The application attempted to access invalid or unexpected data during execution.",
+    rootCause:
+      "The application attempted to access invalid or unexpected data during execution.",
 
-  explanation:
-    "The request reached the server successfully but failed because required values were missing or improperly handled.",
+    explanation:
+      "The request reached the server successfully but failed because required values were missing or improperly handled.",
 
-  severity: "HIGH",
+    severity: Severity.HIGH,
 
-  confidence: 95,
+    confidence: 95,
 
-  fixes: [
-    "Validate all request inputs.",
-    "Add proper null checks.",
-    "Improve error handling."
-  ],
+    fixes: [
+      "Validate all request inputs.",
+      "Add proper null checks.",
+      "Improve error handling.",
+    ],
 
-  prevention: [
-    "Write unit tests.",
-    "Use TypeScript strict mode.",
-    "Validate payloads before processing."
-  ]
-};
+    prevention: [
+      "Write unit tests.",
+      "Use TypeScript strict mode.",
+      "Validate payloads before processing.",
+    ],
+  };
 
   const analysis = await prisma.aIAnalysis.create({
     data: {
@@ -68,8 +65,8 @@ export async function analyzeErrorReport(
       prevention: validated.prevention as Prisma.JsonArray,
       provider: "Google",
       model: "Gemini",
-      errorReportId: report.id
-    }
+      errorReportId: report.id,
+    },
   });
 
   return analysis;

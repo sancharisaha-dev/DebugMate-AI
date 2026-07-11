@@ -27,7 +27,8 @@ const publicUserSelect = {
 
 function signAccessToken(user: Pick<PublicUser, "id" | "email">): string {
   const options: SignOptions = {
-    expiresIn: env.JWT_ACCESS_EXPIRES_IN
+    expiresIn: env.JWT_ACCESS_EXPIRES_IN as SignOptions["expiresIn"]
+
   };
 
   return jwt.sign(
