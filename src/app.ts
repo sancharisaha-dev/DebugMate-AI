@@ -42,6 +42,25 @@ app.use(
   swaggerUi.setup(swaggerDocument)
 );
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Welcome to DebugMate AI API 🚀",
+    version: "1.0.0",
+    documentation: "/docs",
+    status: "running"
+  });
+});
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.use((_req, res) => {
   res.status(404).json({
     success: false,
