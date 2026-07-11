@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 
 info:
   title: DebugMate AI API
@@ -12,45 +12,265 @@ servers:
   - url: https://debugmate-ai-zvlz.onrender.com
     description: Production
 
+tags:
+  - name: Authentication
+  - name: Error Reports
+  - name: Search
+  - name: Analytics
+
 paths:
 
   /api/auth/register:
     post:
-      summary: Register user
+      tags:
+        - Authentication
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        "201":
+          description: User registered successfully
 
   /api/auth/login:
     post:
-      summary: Login user
+      tags:
+        - Authentication
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        "200":
+          description: Login successful
 
   /api/auth/me:
     get:
-      summary: Current user
+      tags:
+        - Authentication
+      summary: Get current user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
 
   /api/errors:
     get:
-      summary: List reports
+      tags:
+        - Error Reports
+      summary: Get all error reports
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: List of reports
 
     post:
-      summary: Create report
+      tags:
+        - Error Reports
+      summary: Create an error report
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportRequest'
+      responses:
+        "201":
+          description: Report created
 
   /api/errors/{id}:
     get:
-      summary: Get report
+      tags:
+        - Error Reports
+      summary: Get report by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ReportId'
+      responses:
+        "200":
+          description: Report found
 
     put:
+      tags:
+        - Error Reports
       summary: Update report
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ReportId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportRequest'
+      responses:
+        "200":
+          description: Report updated
 
     delete:
+      tags:
+        - Error Reports
       summary: Delete report
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ReportId'
+      responses:
+        "200":
+          description: Report deleted
 
   /api/errors/{id}/analyze:
     post:
-      summary: Analyze report
+      tags:
+        - Error Reports
+      summary: Analyze an error report using AI
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ReportId'
+      responses:
+        "200":
+          description: AI analysis completed
 
   /api/search:
     get:
+      tags:
+        - Search
       summary: Search reports
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+            example: TypeError
+      responses:
+        "200":
+          description: Search results
 
   /api/analytics:
     get:
+      tags:
+        - Analytics
       summary: Dashboard analytics
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Analytics returned
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    ReportId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      example: cmrfc71p00001npskvnoz11ex
+
+  schemas:
+
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: john@example.com
+        password:
+          type: string
+          example: Password@123
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: john@example.com
+        password:
+          type: string
+          example: Password@123
+
+    CreateReportRequest:
+      type: object
+      required:
+        - title
+        - rawError
+        - language
+      properties:
+        title:
+          type: string
+          example: TypeError while fetching user
+
+        description:
+          type: string
+          example: Cannot read properties of undefined
+
+        rawError:
+          type: string
+          example: TypeError: Cannot read properties of undefined (reading 'name')
+
+        language:
+          type: string
+          example: TypeScript
+
+        framework:
+          type: string
+          example: Express
+
+        endpoint:
+          type: string
+          example: /api/users
+
+        httpMethod:
+          type: string
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+          example: GET
